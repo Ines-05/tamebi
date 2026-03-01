@@ -3,23 +3,23 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "/main.py"
+            "destination": "api/index.py"
         },
         {
-            "source": "/(assets/.*)",
-            "destination": "/frontend/dist/$1"
+            "source": "/assets/(.*)",
+            "destination": "frontend/dist/assets/$1"
         },
         {
-            "source": "/(.*\\.[a-z0-9]+)$",
-            "destination": "/frontend/dist/$1"
+            "source": "/((?!api|assets|favicon|vite|logo).+\\.(?:ico|png|svg|js|css|json|txt|map))$",
+            "destination": "frontend/dist/$1"
         },
         {
             "source": "/",
-            "destination": "/frontend/dist/index.html"
+            "destination": "frontend/dist/index.html"
         },
         {
             "source": "/((?!api|assets|favicon|vite).*)",
-            "destination": "/main.py"
+            "destination": "api/index.py"
         }
     ]
 }
