@@ -6,7 +6,11 @@
             "destination": "/main.py"
         },
         {
-            "source": "/(assets/.*|favicon.ico|favicon.png|vite.svg)",
+            "source": "/(assets/.*)",
+            "destination": "/frontend/dist/$1"
+        },
+        {
+            "source": "/(.*\\.[a-z0-9]+)$",
             "destination": "/frontend/dist/$1"
         },
         {
@@ -14,7 +18,7 @@
             "destination": "/frontend/dist/index.html"
         },
         {
-            "source": "/((?!api|assets|index\\.html|favicon|vite).*)",
+            "source": "/((?!api|assets|favicon|vite).*)",
             "destination": "/main.py"
         }
     ]

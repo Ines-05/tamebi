@@ -9,15 +9,23 @@ router = APIRouter()
 
 @router.get("/{alias}")
 async def redirect_to_url(alias: str):
-    # Safely ignore common static file requests and development assets
-    # so they don't trigger a 404 from the database logic.
-    if alias in ["favicon.ico", "favicon.png", "index.html", "manifest.json", "robots.txt"]:
+    # Aggressively ignore common static file requests and development assets
+    # so they don't trigger a 404 from our database logic.
+    alias_lower = alias.lower().strip("/")
+    
+    # 1. Exact matches for common root files
+    if alias_lower in ["favicon.ico", "favicon.png", "apple-touch-icon.png", "index.html", "manifest.json", "robots.txt", "vite.svg"]:
         raise HTTPException(status_code=404)
     
-    if "." in alias:
-        ext = alias.split(".")[-1].lower()
-        if ext in ["png", "jpg", "jpeg", "gif", "svg", "css", "js", "map", "ico"]:
+    # 2. Check for any path with an extension (assets usually have dots)
+    if "." in alias_lower:
+        ext = alias_lower.split(".")[-1]
+        if ext in ["png", "jpg", "jpeg", "gif", "svg", "css", "js", "map", "ico", "json", "txt"]:
             raise HTTPException(status_code=404)
+
+    # 3. Handle health checks if hit here
+    if alias_lower in ["health", "api/health"]:
+        return {"status": "ok"}
 
     result = supabase.table("links").select("*").eq("alias", alias).execute()
 
