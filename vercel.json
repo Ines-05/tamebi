@@ -6,12 +6,16 @@
             "destination": "/main.py"
         },
         {
-            "source": "/((?!api|assets|index\\.html|vite\\.svg|favicon\\.ico).*)",
-            "destination": "/main.py"
+            "source": "/(assets/.*|favicon.ico|favicon.png|vite.svg)",
+            "destination": "/frontend/dist/$1"
         },
         {
-            "source": "/(.*)",
-            "destination": "/frontend/dist/$1"
+            "source": "/",
+            "destination": "/frontend/dist/index.html"
+        },
+        {
+            "source": "/((?!api|assets|index\\.html|favicon|vite).*)",
+            "destination": "/main.py"
         }
     ]
 }
