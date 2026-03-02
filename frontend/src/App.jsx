@@ -4,7 +4,7 @@ import { Copy, Link, Wand2, Hash, Check, Share2, ExternalLink } from 'lucide-rea
 import './App.css';
 
 const API_BASE = window.location.origin.includes('localhost:5173')
-  ? 'http://localhost:8000'
+  ? 'http://localhost:8000/api'
   : '/api';
 
 function App() {
