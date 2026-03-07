@@ -7,15 +7,15 @@
         },
         {
             "source": "/assets/(.*)",
-            "destination": "frontend/dist/assets/$1"
+            "destination": "dist/assets/$1"
         },
         {
             "source": "/((?!api|assets|favicon|vite|logo).+\\.(?:ico|png|svg|js|css|json|txt|map))$",
-            "destination": "frontend/dist/$1"
+            "destination": "dist/$1"
         },
         {
             "source": "/",
-            "destination": "frontend/dist/index.html"
+            "destination": "dist/index.html"
         },
         {
             "source": "/((?!api|assets|favicon|vite).*)",
