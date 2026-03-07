@@ -9,9 +9,9 @@ from app.routes.analytics import router as analytics_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("🚀 URL Shortener API started")
+    print("URL Shortener API started")
     yield
-    print("🛑 URL Shortener API stopped")
+    print("URL Shortener API stopped")
 
 
 app = FastAPI(

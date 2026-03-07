@@ -49,15 +49,21 @@ function App() {
     } catch (err) {
       console.error("Full error object:", err);
       if (err.response) {
-        // The server responded with a status code outside the 2xx range
-        const msg = err.response.data?.detail || err.response.statusText || "Server error";
-        setError(`Backend Error (${err.response.status}): ${msg}`);
+        // Handle cases where FastAPI returns detail as a list (Pydantic errors)
+        let msg = "Server error";
+        if (err.response.data?.detail) {
+          if (Array.isArray(err.response.data.detail)) {
+            msg = err.response.data.detail.map(d => d.msg).join(", ");
+          } else {
+            msg = err.response.data.detail;
+          }
+        }
+        setError(`Erreur Backend (${err.response.status}): ${msg}`);
       } else if (err.request) {
-        // The request was made but no response was received
-        setError("No response from server. Check your internet or if the backend is down.");
+        console.error("No response received. The backend might be unreachable at http://127.0.0.1:8000");
+        setError("Impossible de joindre le backend. Vérifiez qu'il est bien lancé (npm run dev:backend).");
       } else {
-        // Something else happened while setting up the request
-        setError(`Request Error: ${err.message}`);
+        setError(`Erreur de requête: ${err.message}`);
       }
     } finally {
       setLoading(false);
@@ -89,8 +95,8 @@ function App() {
           <label><Link size={14} style={{ marginRight: 4 }} /> Long URL</label>
           <div className="input-container">
             <input
-              type="url"
-              placeholder="https://example.com/very-long-url"
+              type="text"
+              placeholder="e.g. https://example.com/very-long-url"
               required
               value={originalUrl}
               onChange={(e) => setOriginalUrl(e.target.value)}
