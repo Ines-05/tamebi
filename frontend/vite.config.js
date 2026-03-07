@@ -11,9 +11,5 @@ export default defineConfig({
         changeOrigin: true,
       },
     }
-  },
-  build: {
-    outDir: '../dist', // Sortie à la racine du projet
-    emptyOutDir: true,
   }
 })
