@@ -30,12 +30,11 @@ app.add_middleware(
 )
 
 
-@app.get("/api/health", tags=["Health"])
-@app.get("/health", tags=["Health"])  # Keep both for flexibility
+@app.get("/health", tags=["Health"])
 async def health_check():
     return {"status": "ok"}
 
 
-app.include_router(shorten_router, prefix="/api", tags=["Shortener"])
-app.include_router(analytics_router, prefix="/api/analytics", tags=["Analytics"])
+app.include_router(shorten_router, tags=["Shortener"])
+app.include_router(analytics_router, prefix="/analytics", tags=["Analytics"])
 app.include_router(redirect_router, tags=["Redirect"])  # catch-all /{alias} — must be last

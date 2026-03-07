@@ -13,8 +13,8 @@ async def redirect_to_url(alias: str):
     # so they don't trigger a 404 from our database logic.
     alias_lower = alias.lower().strip("/")
     
-    # 1. Exact matches for common root files
-    if alias_lower in ["favicon.ico", "favicon.png", "apple-touch-icon.png", "index.html", "manifest.json", "robots.txt", "vite.svg"]:
+    # 1. Exact matches for common root files and API prefix
+    if alias_lower.startswith("api/") or alias_lower in ["api", "favicon.ico", "favicon.png", "apple-touch-icon.png", "index.html", "manifest.json", "robots.txt", "vite.svg"]:
         raise HTTPException(status_code=404)
     
     # 2. Check for any path with an extension (assets usually have dots)
