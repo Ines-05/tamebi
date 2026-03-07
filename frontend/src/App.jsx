@@ -3,9 +3,7 @@ import axios from 'axios';
 import { Copy, Link, Wand2, Hash, Check, Share2, ExternalLink } from 'lucide-react';
 import './App.css';
 
-const API_BASE = window.location.origin.includes('localhost:5173')
-  ? 'http://localhost:8000/api'
-  : '/api';
+const API_BASE = '/api';
 
 function App() {
   const [originalUrl, setOriginalUrl] = useState('');
@@ -49,11 +47,17 @@ function App() {
 
       setShortData(response.data);
     } catch (err) {
-      console.error(err);
+      console.error("Full error object:", err);
       if (err.response) {
-        setError(err.response.data.detail || "Something went wrong. Please check your URL.");
+        // The server responded with a status code outside the 2xx range
+        const msg = err.response.data?.detail || err.response.statusText || "Server error";
+        setError(`Backend Error (${err.response.status}): ${msg}`);
+      } else if (err.request) {
+        // The request was made but no response was received
+        setError("No response from server. Check your internet or if the backend is down.");
       } else {
-        setError("Failed to connect to the backend server.");
+        // Something else happened while setting up the request
+        setError(`Request Error: ${err.message}`);
       }
     } finally {
       setLoading(false);

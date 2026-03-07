@@ -1,0 +1,12 @@
+{
+    "name": "tamebi-root",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev:frontend": "npm run dev --prefix frontend",
+        "dev:backend": "powershell -Command \"$env:PYTHONPATH='backend'; uv run uvicorn app.main:app --reload --port 8000\"",
+        "dev": "npx concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+        "install:all": "npm install --prefix frontend && uv sync",
+        "build:frontend": "npm run build --prefix frontend"
+    }
+}
